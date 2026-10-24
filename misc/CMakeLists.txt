@@ -24,7 +24,17 @@ add_cctools_misc(seg_addr_table)
 add_cctools_misc(check_dylib)
 add_cctools_misc(seg_hack)
 add_cctools_misc(install_name_tool)
-add_cctools_misc(codesign_allocate)
+# Genuine signer helper (not a signer): the Security.framework signer invokes
+# this through CODESIGN_ALLOCATE or its /usr/bin default and fails with
+# errSecCSHelperFailed if it is absent. Install it under the canonical cctools
+# destination with a declared component so a prefix can receive only the
+# signing helper without a full cctools deploy.
+add_darling_executable(codesign_allocate_cctools_misc codesign_allocate.c)
+target_link_libraries(codesign_allocate_cctools_misc libstuff)
+set_target_properties(codesign_allocate_cctools_misc PROPERTIES OUTPUT_NAME codesign_allocate)
+install(TARGETS codesign_allocate_cctools_misc
+	DESTINATION ${CCTOOLS_INSTALL_DEST}
+	COMPONENT codesign_allocate)
 add_cctools_misc(ctf_insert)
 add_cctools_misc(bitcode_strip)
 add_cctools_misc(nm)
