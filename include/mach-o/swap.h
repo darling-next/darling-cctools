@@ -199,6 +199,10 @@ extern void swap_build_version_command(
     struct build_version_command *bv,
     enum NXByteOrder target_byte_sex);
 
+extern void swap_fileset_entry_command(
+    struct fileset_entry_command *lc,
+    enum NXByteOrder target_byte_sex);
+
 extern void swap_build_tool_version(
     struct build_tool_version *bt,
     uint32_t ntools,

@@ -322,6 +322,7 @@ struct load_command {
 #define LC_BUILD_VERSION 0x32 /* build for platform min OS version */
 #define LC_DYLD_EXPORTS_TRIE (0x33 | LC_REQ_DYLD) /* used with linkedit_data_command, payload is trie */
 #define LC_DYLD_CHAINED_FIXUPS (0x34 | LC_REQ_DYLD) /* used with linkedit_data_command */
+#define LC_FILESET_ENTRY (0x35 | LC_REQ_DYLD) /* file entry in a Mach-O fileset */
 
 /*
  * A variable length string in a load command is represented by an lc_str
@@ -1572,6 +1573,16 @@ struct note_command {
     char	data_owner[16];	/* owner name for this LC_NOTE */
     uint64_t	offset;		/* file offset of this data */
     uint64_t	size;		/* length of data region */
+};
+
+/* Apple's fileset load-command layout; entry_id is command-relative. */
+struct fileset_entry_command {
+    uint32_t cmd;
+    uint32_t cmdsize;
+    uint64_t vmaddr;
+    uint64_t fileoff;
+    union lc_str entry_id;
+    uint32_t reserved;
 };
 
 #endif /* _MACHO_LOADER_H_ */

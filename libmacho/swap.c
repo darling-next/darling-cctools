@@ -498,6 +498,20 @@ enum NXByteOrder target_byte_sex)
 	bv->ntools = OSSwapInt32(bv->ntools);
 }
 
+/* From Apple's current cctools/libmacho/swap.c (APSL 2.0), unchanged. */
+void
+swap_fileset_entry_command(
+struct fileset_entry_command *lc,
+enum NXByteOrder target_byte_sex)
+{
+	lc->cmd = OSSwapInt32(lc->cmd);
+	lc->cmdsize = OSSwapInt32(lc->cmdsize);
+	lc->vmaddr = OSSwapInt64(lc->vmaddr);
+	lc->fileoff = OSSwapInt64(lc->fileoff);
+	lc->entry_id.offset = OSSwapInt32(lc->entry_id.offset);
+	lc->reserved = OSSwapInt32(lc->reserved);
+}
+
 void
 swap_build_tool_version(
 struct build_tool_version *btv,
